@@ -1,11 +1,14 @@
+import { useEffect } from 'react';
 import useChartData from '../../hooks/useChartData';
 
 const Chart = () => {
-  const { state } = useChartData();
+  const { datas, fetchChartData } = useChartData();
 
-  console.log(state.datas);
+  useEffect(() => {
+    fetchChartData();
+  }, [fetchChartData]);
 
-  return <div>차트</div>;
+  return <div>{datas && <div>아니</div>}</div>;
 };
 
 export default Chart;

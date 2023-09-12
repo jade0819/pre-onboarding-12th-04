@@ -1,11 +1,14 @@
-import Header from './components/Header';
+import Header from './components/header/Header';
+import ContentLayout from './layout/ContentLayout';
 import Chart from './components/chart/Chart';
 
 const App = () => {
   return (
     <div>
       <Header />
-      <Chart />
+      <ContentLayout>
+        <Chart />
+      </ContentLayout>
     </div>
   );
 };
