@@ -1,7 +1,7 @@
 import { useCallback, useReducer } from 'react';
 import { reducer, initialState } from '../reducer/chartReducer';
 import { getChartData } from '../api/chartData';
-import { structuredChartData } from '../utils/chart/processedChartData';
+import { structuredChartData } from '../utils/chart/structuredChartData';
 
 const useChartData = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
