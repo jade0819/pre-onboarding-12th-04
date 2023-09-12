@@ -16,7 +16,7 @@ const Chart = () => {
     <>
       {error && <Error />}
       {isLoaidng && <Loading />}
-      {datas && <MultiChart chartData={datas} />}
+      {datas && <MultiChart datas={datas} />}
     </>
   );
 };
