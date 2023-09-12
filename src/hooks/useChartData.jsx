@@ -1,7 +1,7 @@
 import { useCallback, useReducer } from 'react';
 import { reducer, initialState } from '../reducer/chartReducer';
 import { getChartData } from '../api/chartData';
-import { chartDataProcessing } from '../utils/chart/chartDataProcessing';
+import { structuredChartData } from '../utils/chart/processedChartData';
 
 const useChartData = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -11,7 +11,7 @@ const useChartData = () => {
 
     try {
       const chartData = await getChartData();
-      dispatch({ type: 'SET_DATA', payload: chartDataProcessing(chartData.response) });
+      dispatch({ type: 'SET_DATA', payload: structuredChartData(chartData.response) });
     } catch (error) {
       dispatch({ type: 'SET_ERROR', payload: error });
     } finally {

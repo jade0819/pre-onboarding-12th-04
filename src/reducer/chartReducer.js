@@ -9,9 +9,9 @@ export const reducer = (state, action) => {
     case 'SET_LOADING':
       return { ...state, isLoading: action?.payload };
     case 'SET_ERROR':
-      return { ...state, error: action?.payload };
+      return { ...state, datas: [], error: action?.payload };
     case 'SET_DATA':
-      return { ...state, datas: action?.payload };
+      return { ...state, error: null, datas: action?.payload };
     default:
       return state;
   }

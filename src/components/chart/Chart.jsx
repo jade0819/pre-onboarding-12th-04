@@ -1,14 +1,24 @@
 import { useEffect } from 'react';
 import useChartData from '../../hooks/useChartData';
+import Error from '../ui/Error';
+import Loading from '../ui/Loading';
+import MultiChart from './MultiChart';
 
 const Chart = () => {
-  const { datas, fetchChartData } = useChartData();
+  const { state, fetchChartData } = useChartData();
+  const { error, isLoaidng, datas } = state;
 
   useEffect(() => {
     fetchChartData();
   }, [fetchChartData]);
 
-  return <div>{datas && <div>아니</div>}</div>;
+  return (
+    <>
+      {error && <Error />}
+      {isLoaidng && <Loading />}
+      {datas && <MultiChart chartData={datas} />}
+    </>
+  );
 };
 
 export default Chart;
