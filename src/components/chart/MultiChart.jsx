@@ -13,7 +13,7 @@ import {
 } from 'chart.js';
 import { Chart, getElementsAtEvent } from 'react-chartjs-2';
 import { useRef, useState } from 'react';
-import FilterButton from './FilterButton';
+import FilterButtonList from './FilterButtonList';
 import { extractedArrayChartData } from '../../utils/chart/extractedArrayChartData';
 import { isEmptyArray, isEmptyObject } from '../../utils/isEmpty';
 import { extractedRegionData } from '../../utils/chart/extractedRegionData';
@@ -53,7 +53,7 @@ const MultiChart = ({ datas }) => {
 
   return (
     <div>
-      <FilterButton
+      <FilterButtonList
         regionArray={chartData.regionArray}
         selectedRegion={selectedRegion}
         setSelectedRegion={setSelectedRegion}

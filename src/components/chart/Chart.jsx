@@ -14,7 +14,7 @@ const Chart = () => {
 
   return (
     <>
-      {error && <Error />}
+      {error && <Error error={error} retry={fetchChartData} />}
       {isLoading && <Loading />}
       {!(isLoading || error) && <MultiChart datas={datas} />}
     </>
