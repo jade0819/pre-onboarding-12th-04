@@ -15,7 +15,7 @@ import { Chart, getElementsAtEvent } from 'react-chartjs-2';
 import { useRef, useState } from 'react';
 import FilterButton from './FilterButton';
 import { extractedArrayChartData } from '../../utils/chart/extractedArrayChartData';
-import { isEmptyObject } from '../../utils/isEmpty';
+import { isEmptyArray, isEmptyObject } from '../../utils/isEmpty';
 import { extractedRegionData } from '../../utils/chart/extractedRegionData';
 import { getChartDataSet } from '../../utils/chart/getChartDataSet';
 import { getChartOptions } from '../../utils/chart/getChartOptions';
@@ -34,7 +34,7 @@ ChartJS.register(
 );
 
 const MultiChart = ({ datas }) => {
-  const [selectedRegion, setSelectedRegion] = useState(null);
+  const [selectedRegion, setSelectedRegion] = useState([]);
   const chartRef = useRef(null);
 
   const chartData = extractedArrayChartData(datas);
@@ -43,10 +43,10 @@ const MultiChart = ({ datas }) => {
 
   const handleClickChartItem = event => {
     const targetData = getElementsAtEvent(chartRef.current, event);
-    if (targetData.length === 0) return;
+    if (isEmptyArray(targetData)) return;
 
     const region = extractedRegionData(targetData, chartData.regionArray);
-    setSelectedRegion(region);
+    setSelectedRegion(prev => [...prev, region]);
   };
 
   return (
@@ -61,11 +61,10 @@ const MultiChart = ({ datas }) => {
         <div className="w-full">
           <Chart
             ref={chartRef}
-            onClick={handleClickChartItem}
             type="area"
             data={chartDataSet}
             options={chartOptions}
-            plugins={{}}
+            onClick={handleClickChartItem}
           />
         </div>
       )}

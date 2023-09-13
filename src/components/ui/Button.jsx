@@ -1,6 +1,8 @@
-const Button = ({ title, active, ...props }) => {
+const Button = ({ title, selectedRegion, ...props }) => {
+  const active = selectedRegion?.includes(title);
+
   return (
-    <button className={active === title ? 'bg-green-pastel-accent' : 'bg-green-pastel'} {...props}>
+    <button className={active ? 'bg-green-pastel-accent' : 'bg-green-pastel'} {...props}>
       {title}
     </button>
   );

@@ -5,23 +5,22 @@ const FilterButton = ({ regionArray, selectedRegion, setSelectedRegion }) => {
   const uniqueRegionArray = uniqueArray(regionArray);
 
   const handleTypeFilter = region => {
-    setSelectedRegion(prev => {
-      if (prev === null) return region;
-
-      if (prev === region) return null;
-      else return region;
-    });
+    if (selectedRegion.includes(region)) {
+      setSelectedRegion(selectedRegion.filter(data => data !== region));
+    } else {
+      setSelectedRegion(prev => [...prev, region]);
+    }
   };
 
   return (
     <div className="w-full flex justify-center space-x-3 mb-14">
-      <Button title="전체" onClick={() => setSelectedRegion(null)} />
+      <Button title="전체" onClick={() => setSelectedRegion([])} />
 
       {uniqueRegionArray?.map((region, index) => (
         <Button
           key={index}
           title={region}
-          active={selectedRegion}
+          selectedRegion={selectedRegion}
           onClick={() => handleTypeFilter(region)}
         >
           {region}
