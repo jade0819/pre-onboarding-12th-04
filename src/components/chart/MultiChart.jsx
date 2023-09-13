@@ -40,7 +40,7 @@ const MultiChart = ({ datas }) => {
   const chartRef = useRef(null);
 
   const datasets = getChartDataset(chartData, selectedRegion);
-  const chartDataset = { labels: chartData.timeArray, datasets: datasets };
+  const chartDataset = { labels: chartData.timestampArray, datasets: datasets };
   const chartOptions = getChartOptions(chartData);
 
   const handleClickChartItem = event => {
