@@ -11,11 +11,14 @@ import {
   BarController,
   Filler,
 } from 'chart.js';
-import { Chart } from 'react-chartjs-2';
+import { Chart, getElementsAtEvent } from 'react-chartjs-2';
+import { useRef, useState } from 'react';
 import Filter from './Filter';
 import { extractedArrayChartData } from '../../utils/chart/extractedArrayChartData';
+import { getChartFillColors } from '../../utils/chart/getChartFillColors';
 import { isEmptyObject } from '../../utils/isEmpty';
-import { useState } from 'react';
+import { axisNumberRange } from '../../utils/chart/axisNumberRange';
+import { extractedRegionData } from '../../utils/chart/extractedRegionData';
 
 ChartJS.register(
   LinearScale,
@@ -32,8 +35,7 @@ ChartJS.register(
 
 const MultiChart = ({ datas }) => {
   const chartData = extractedArrayChartData(datas);
-  // if (!isEmptyObject(chartData)) return;
-  const { labelArray, regionArray, valueAreaArray, valueBarArray, dateArray } = chartData;
+  const { regionArray, valueAreaArray, valueBarArray, timeArray } = chartData;
 
   const [selectedRegion, setSelectedRegion] = useState(null);
 
@@ -41,58 +43,37 @@ const MultiChart = ({ datas }) => {
     setSelectedRegion(region);
   };
 
-  const getFillColor = type => {
-    const colors = [];
-    regionArray.map(region => {
-      if (selectedRegion === null || region === selectedRegion) {
-        colors.push(type === 'bar' ? '#8884d8' : 'rgba(255, 0, 0, 0.6)');
-      } else {
-        colors.push(type === 'bar' ? '#413ea0' : '#82ca9d');
-      }
-    });
-    return colors;
-  };
-
-  const barColors = getFillColor('bar');
-  const areaColors = getFillColor('area');
+  const barColorArray = getChartFillColors('bar', selectedRegion, regionArray);
+  const areaColorArray = getChartFillColors('area', selectedRegion, regionArray);
 
   const chartDataSet = {
-    labels: labelArray,
+    labels: timeArray,
     datasets: [
       {
-        label: 'Value Bar',
+        label: 'value_bar',
         type: 'bar',
         data: valueBarArray,
         fill: true,
-        backgroundColor: barColors,
-        borderColor: barColors,
-        yAxisID: 'y-axis-left',
+        backgroundColor: barColorArray,
+        borderColor: barColorArray,
+        yAxisID: 'y-axis-bar',
       },
       {
-        label: 'Value Area',
+        label: 'value_area',
         type: 'line',
         data: valueAreaArray,
         fill: true,
-        // backgroundColor: "rgba(255,99,132,0.2)",
-        // borderColor: "rgba(255,99,132,1)",
-        backgroundColor: areaColors,
-        borderColor: areaColors,
+        backgroundColor: areaColorArray,
+        borderColor: areaColorArray,
         borderWidth: 2,
-        yAxisID: 'y-axis-right',
+        yAxisID: 'y-axis-area',
       },
     ],
   };
 
   const chartOptions = {
     scales: {
-      x: {
-        ticks: {
-          callback: function (_, index) {
-            return index % 10 === 0 ? dateArray[index].split(' ')[1] : null;
-          },
-        },
-      },
-      'y-axis-left': {
+      'y-axis-bar': {
         type: 'linear',
         position: 'left',
         beginAtZero: true,
@@ -101,37 +82,57 @@ const MultiChart = ({ datas }) => {
           text: 'bar_value',
         },
       },
-      'y-axis-right': {
+      'y-axis-area': {
         position: 'right',
         beginAtZero: true,
+        suggestedMin: axisNumberRange(valueAreaArray).min,
+        suggestedMax: axisNumberRange(valueAreaArray).max * 2,
         title: {
           display: true,
-          text: 'bar_value',
+          text: 'area_value',
+        },
+      },
+    },
+    interaction: {
+      intersect: true,
+      mode: 'index',
+    },
+    plugins: {
+      tooltip: {
+        position: 'average',
+        callbacks: {
+          title: tooltipItems => extractedRegionData(tooltipItems, regionArray),
         },
       },
     },
   };
 
+  const chartRef = useRef(null);
+  const handleClickChart = event => {
+    const targetData = getElementsAtEvent(chartRef.current, event);
+    if (targetData.length === 0) return;
+
+    const region = extractedRegionData(targetData, regionArray);
+    setSelectedRegion(region);
+  };
+
   return (
-    <>
+    <div>
       <Filter regionArray={regionArray} handleTypeFilter={handleTypeFilter} />
 
       {!isEmptyObject(chartData) && (
-        <div className="w-4/5">
+        <div className="w-full">
           <Chart
+            ref={chartRef}
+            onClick={handleClickChart}
             type="bar"
             data={chartDataSet}
             options={chartOptions}
-            plugins={{
-              legend: {
-                display: true,
-                position: 'top',
-              },
-            }}
+            plugins={{}}
           />
         </div>
       )}
-    </>
+    </div>
   );
 };
 

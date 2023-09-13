@@ -26,31 +26,24 @@ body {
 
 #root {
   max-width: 1280px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   min-width: 320px;
   min-height: 100vh;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  /* background-color: #F2EEE5; */
-  background-color: #fffa82;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
+@layer base {
+  button {
+    @apply text-white bg-green-pastel py-2 px-5 rounded-lg border-transparent cursor-pointer outline-none;
+  }
 
-button:hover {
-  /* border-color: #646cff; */
-  border-color: #ffe650;
-}
+  button:hover {
+    @apply border-l-green-pastel-accent;
+  }
 
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  /* button:focus,
+  button:focus-visible {
+    @apply bg-green-pastel-accent;
+  } */
 }
