@@ -1,9 +1,7 @@
-import loadingImage from '../../assets/loading-image-200px.gif';
-
 const Loading = () => {
   return (
-    <div className="h-screen flex justify-center items-start pt-[190px] ">
-      <img src={loadingImage} />
+    <div className="h-screen flex justify-center pt-64 text-6xl font-bold text-green-pastel-accent">
+      Loading...
     </div>
   );
 };
