@@ -13,7 +13,7 @@ import {
 } from 'chart.js';
 import { Chart, getElementsAtEvent } from 'react-chartjs-2';
 import { useRef, useState } from 'react';
-import Filter from './Filter';
+import FilterButton from './FilterButton';
 import { extractedArrayChartData } from '../../utils/chart/extractedArrayChartData';
 import { getChartFillColors } from '../../utils/chart/getChartFillColors';
 import { isEmptyObject } from '../../utils/isEmpty';
@@ -38,10 +38,6 @@ const MultiChart = ({ datas }) => {
   const { regionArray, valueAreaArray, valueBarArray, timeArray } = chartData;
 
   const [selectedRegion, setSelectedRegion] = useState(null);
-
-  const handleTypeFilter = region => {
-    setSelectedRegion(region);
-  };
 
   const barColorArray = getChartFillColors('bar', selectedRegion, regionArray);
   const areaColorArray = getChartFillColors('area', selectedRegion, regionArray);
@@ -118,14 +114,18 @@ const MultiChart = ({ datas }) => {
 
   return (
     <div>
-      <Filter regionArray={regionArray} handleTypeFilter={handleTypeFilter} />
+      <FilterButton
+        regionArray={regionArray}
+        selectedRegion={selectedRegion}
+        setSelectedRegion={setSelectedRegion}
+      />
 
       {!isEmptyObject(chartData) && (
         <div className="w-full">
           <Chart
             ref={chartRef}
             onClick={handleClickChart}
-            type="bar"
+            type="area"
             data={chartDataSet}
             options={chartOptions}
             plugins={{}}
