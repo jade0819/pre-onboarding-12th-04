@@ -6,7 +6,7 @@ import MultiChart from './MultiChart';
 
 const Chart = () => {
   const { state, fetchChartData } = useChartData();
-  const { error, isLoaidng, datas } = state;
+  const { error, isLoading, datas } = state;
 
   useEffect(() => {
     fetchChartData();
@@ -14,9 +14,9 @@ const Chart = () => {
 
   return (
     <>
-      {error && <Error />}
-      {isLoaidng && <Loading />}
-      {datas && <MultiChart datas={datas} />}
+      {error && <Error error={error} retry={fetchChartData} />}
+      {isLoading && <Loading />}
+      {!(isLoading || error) && <MultiChart datas={datas} />}
     </>
   );
 };

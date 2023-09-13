@@ -1,6 +1,6 @@
 import { isEmptyArray } from '../isEmpty';
 
-export const axisNumberRange = valueArray => {
+export const getAxisNumberRange = valueArray => {
   if (isEmptyArray(valueArray)) return 0;
 
   const min = Math.min(...valueArray);

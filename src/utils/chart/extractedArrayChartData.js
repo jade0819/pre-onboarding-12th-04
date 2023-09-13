@@ -4,8 +4,8 @@ export const extractedArrayChartData = chartData => {
   const newChartData = {
     timestampArray: [],
     regionArray: [],
-    valueAreaArray: [],
     valueBarArray: [],
+    valueAreaArray: [],
     dateArray: [],
     timeArray: [],
   };
@@ -13,8 +13,8 @@ export const extractedArrayChartData = chartData => {
   chartData.forEach(item => {
     newChartData.timestampArray.push(item.timestamp);
     newChartData.regionArray.push(item.region);
-    newChartData.valueAreaArray.push(item.value_area);
     newChartData.valueBarArray.push(item.value_bar);
+    newChartData.valueAreaArray.push(item.value_area);
     newChartData.dateArray.push(item.date);
     newChartData.timeArray.push(item.time);
   });

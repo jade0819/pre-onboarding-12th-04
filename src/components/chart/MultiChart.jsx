@@ -13,11 +13,11 @@ import {
 } from 'chart.js';
 import { Chart, getElementsAtEvent } from 'react-chartjs-2';
 import { useRef, useState } from 'react';
-import FilterButton from './FilterButton';
+import FilterButtonList from './FilterButtonList';
 import { extractedArrayChartData } from '../../utils/chart/extractedArrayChartData';
-import { isEmptyObject } from '../../utils/isEmpty';
+import { isEmptyArray, isEmptyObject } from '../../utils/isEmpty';
 import { extractedRegionData } from '../../utils/chart/extractedRegionData';
-import { getChartDataSet } from '../../utils/chart/getChartDataSet';
+import { getChartDataset } from '../../utils/chart/getChartDataset';
 import { getChartOptions } from '../../utils/chart/getChartOptions';
 
 ChartJS.register(
@@ -34,24 +34,26 @@ ChartJS.register(
 );
 
 const MultiChart = ({ datas }) => {
-  const [selectedRegion, setSelectedRegion] = useState(null);
+  const chartData = extractedArrayChartData(datas);
+
+  const [selectedRegion, setSelectedRegion] = useState([]);
   const chartRef = useRef(null);
 
-  const chartData = extractedArrayChartData(datas);
-  const chartDataSet = getChartDataSet(chartData, selectedRegion);
+  const datasets = getChartDataset(chartData, selectedRegion);
+  const chartDataset = { labels: chartData.timeArray, datasets: datasets };
   const chartOptions = getChartOptions(chartData);
 
   const handleClickChartItem = event => {
     const targetData = getElementsAtEvent(chartRef.current, event);
-    if (targetData.length === 0) return;
+    if (isEmptyArray(targetData)) return;
 
     const region = extractedRegionData(targetData, chartData.regionArray);
-    setSelectedRegion(region);
+    setSelectedRegion(prev => [...prev, region]);
   };
 
   return (
     <div>
-      <FilterButton
+      <FilterButtonList
         regionArray={chartData.regionArray}
         selectedRegion={selectedRegion}
         setSelectedRegion={setSelectedRegion}
@@ -61,11 +63,10 @@ const MultiChart = ({ datas }) => {
         <div className="w-full">
           <Chart
             ref={chartRef}
-            onClick={handleClickChartItem}
-            type="area"
-            data={chartDataSet}
+            type="bar"
+            data={chartDataset}
             options={chartOptions}
-            plugins={{}}
+            onClick={handleClickChartItem}
           />
         </div>
       )}
