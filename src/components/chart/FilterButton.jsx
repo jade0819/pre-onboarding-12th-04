@@ -5,7 +5,12 @@ const FilterButton = ({ regionArray, selectedRegion, setSelectedRegion }) => {
   const uniqueRegionArray = uniqueArray(regionArray);
 
   const handleTypeFilter = region => {
-    setSelectedRegion(prev => (prev ? null : region));
+    setSelectedRegion(prev => {
+      if (prev === null) return region;
+
+      if (prev === region) return null;
+      else return region;
+    });
   };
 
   return (
