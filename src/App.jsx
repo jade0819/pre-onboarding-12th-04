@@ -1,5 +1,16 @@
+import Header from './components/header/Header';
+import ContentLayout from './layout/ContentLayout';
+import Chart from './components/chart/Chart';
+
 const App = () => {
-  return <div>prettier, eslint, husky 설정 완료!</div>;
+  return (
+    <div>
+      <Header />
+      <ContentLayout>
+        <Chart />
+      </ContentLayout>
+    </div>
+  );
 };
 
 export default App;
