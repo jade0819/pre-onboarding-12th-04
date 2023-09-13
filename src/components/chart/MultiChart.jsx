@@ -17,7 +17,7 @@ import FilterButton from './FilterButton';
 import { extractedArrayChartData } from '../../utils/chart/extractedArrayChartData';
 import { isEmptyArray, isEmptyObject } from '../../utils/isEmpty';
 import { extractedRegionData } from '../../utils/chart/extractedRegionData';
-import { getChartDataSet } from '../../utils/chart/getChartDataSet';
+import { getChartDataset } from '../../utils/chart/getChartDataset';
 import { getChartOptions } from '../../utils/chart/getChartOptions';
 
 ChartJS.register(
@@ -34,11 +34,13 @@ ChartJS.register(
 );
 
 const MultiChart = ({ datas }) => {
+  const chartData = extractedArrayChartData(datas);
+
   const [selectedRegion, setSelectedRegion] = useState([]);
   const chartRef = useRef(null);
 
-  const chartData = extractedArrayChartData(datas);
-  const chartDataSet = getChartDataSet(chartData, selectedRegion);
+  const datasets = getChartDataset(chartData, selectedRegion);
+  const chartDataset = { labels: chartData.timeArray, datasets: datasets };
   const chartOptions = getChartOptions(chartData);
 
   const handleClickChartItem = event => {
@@ -61,8 +63,8 @@ const MultiChart = ({ datas }) => {
         <div className="w-full">
           <Chart
             ref={chartRef}
-            type="area"
-            data={chartDataSet}
+            type="bar"
+            data={chartDataset}
             options={chartOptions}
             onClick={handleClickChartItem}
           />

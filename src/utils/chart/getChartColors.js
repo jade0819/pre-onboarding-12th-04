@@ -1,6 +1,6 @@
 import { chartColors, colors } from '../../constants/colors';
 
-export const getChartFillColors = (type, selectedRegion, regionArray) => {
+export const getChartColors = (type, selectedRegion, regionArray) => {
   if (!(type && regionArray)) return colors.skyblue;
 
   return regionArray.map(region => {

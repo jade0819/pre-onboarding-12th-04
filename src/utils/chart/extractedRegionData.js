@@ -8,12 +8,3 @@ export const extractedRegionData = (tooltipItems, regionArray) => {
 
   return regionArray[index];
 };
-
-// export const extratedRegionDataForClick = (tooltipItems, regionArray) => {
-//   if (isEmptyArray(regionArray)) return '';
-
-//   const item = Array.isArray(tooltipItems) ? tooltipItems[0] : tooltipItems;
-//   const index = 'dataIndex' in item ? item.dataIndex : 0;
-
-//   return regionArray[index];
-// };

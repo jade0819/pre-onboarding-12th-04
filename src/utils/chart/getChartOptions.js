@@ -1,4 +1,4 @@
-import { axisNumberRange } from './axisNumberRange';
+import { getAxisNumberRange } from './getAxisNumberRange';
 import { extractedRegionData } from './extractedRegionData';
 
 export const getChartOptions = chartData => {
@@ -18,8 +18,8 @@ export const getChartOptions = chartData => {
       'y-axis-area': {
         position: 'right',
         beginAtZero: true,
-        suggestedMin: axisNumberRange(valueAreaArray).min,
-        suggestedMax: axisNumberRange(valueAreaArray).max * 2,
+        suggestedMin: getAxisNumberRange(valueAreaArray).min,
+        suggestedMax: getAxisNumberRange(valueAreaArray).max * 2,
         title: {
           display: true,
           text: 'area_value',
