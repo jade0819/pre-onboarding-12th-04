@@ -14,7 +14,12 @@ const FilterButton = ({ regionArray, selectedRegion, setSelectedRegion }) => {
 
   return (
     <div className="w-full flex justify-center space-x-3 mb-14">
-      <Button title="전체" onClick={() => setSelectedRegion([])} />
+      <button
+        className="bg-white text-green-pastel-accent font-bold border border-green-pastel-accent"
+        onClick={() => setSelectedRegion([])}
+      >
+        필터 초기화
+      </button>
 
       {uniqueRegionArray?.map((region, index) => (
         <Button
